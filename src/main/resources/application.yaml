@@ -9,8 +9,6 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
-    contexts: dev
-
 
   jpa:
     properties:
@@ -20,4 +18,8 @@ spring:
           hibernate:
             dialect:
               PostgreSQL10Dialect
+
+
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
 
