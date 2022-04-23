@@ -23,7 +23,8 @@ public class ToDoService {
     @Transactional
     public ToDo saveToDo(String task){
         if(task == null) {
-            throw new IllegalArgumentException();
+            log.error("Задача не может быть  null");
+            throw new NullPointerException();
         }
         ToDo newToDo = ToDo.builder().task(task).deleted(false).build();
         ToDo save = toDoRepository.save(newToDo);
@@ -52,17 +53,21 @@ public class ToDoService {
     public ToDo getToDo(Long todoId){
         Optional<ToDo> toDo = toDoRepository.findByIdAndDeletedIsFalse(todoId);
         if(toDo.isPresent()){
+            log.info("Получена задча с id: {}", todoId);
             return toDo.get();
         }
-        return null;
+        log.error("Задача с id: {} не найдена", todoId);
+        throw new IllegalArgumentException();
     }
 
     @Transactional
     public List<ToDo> getAllToDos(){
         List<ToDo> toDos = toDoRepository.findAllByDeletedIsFalse();
         if (toDos == null) {
+            log.info("Список задач пуст");
             return new ArrayList<>();
         }
+        log.info("Всегоа получено {} задач", toDos.size());
         return toDos;
     }
 

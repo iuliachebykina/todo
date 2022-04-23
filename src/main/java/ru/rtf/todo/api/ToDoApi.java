@@ -42,8 +42,13 @@ public class ToDoApi {
     }
 
     @GetMapping("/{todoId}")
-    public ToDo getToDo(@PathVariable Long todoId){
-       return toDoService.getToDo(todoId);
+    public ResponseEntity<ToDo> getToDo(@PathVariable Long todoId){
+        try {
+            ToDo newToDo = toDoService.getToDo(todoId);
+            return new ResponseEntity<>(newToDo, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping()
@@ -52,8 +57,13 @@ public class ToDoApi {
     }
 
     @DeleteMapping("/{todoId}")
-    public ToDo deleteToDo(@PathVariable Long todoId){
-        return toDoService.deleteToDo(todoId);
+    public ResponseEntity<ToDo> deleteToDo(@PathVariable Long todoId){
+        try {
+            ToDo newToDo = toDoService.deleteToDo(todoId);
+            return new ResponseEntity<>(newToDo, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

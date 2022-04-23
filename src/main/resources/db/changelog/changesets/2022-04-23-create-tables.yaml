@@ -21,7 +21,6 @@ databaseChangeLog:
                   name: deleted
                   type: boolean
             tableName: todo
-            schemaName: todo
   - changeSet:
         id: 2022-04-23_crete_sequence
         author: todo
