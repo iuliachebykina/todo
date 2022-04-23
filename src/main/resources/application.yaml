@@ -2,13 +2,14 @@ spring:
   application:
     name: todo
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
+    url: jdbc:postgresql://localhost:5432/todo
     username: admin
     password: admin
     driverClassName:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
+    default-schema: ${spring.application.name}
 
   jpa:
     properties:
@@ -19,7 +20,5 @@ spring:
             dialect:
               PostgreSQL10Dialect
 
-
 logging.level.org.springframework.web: DEBUG
 logging.level.org.hibernate: ERROR
-
