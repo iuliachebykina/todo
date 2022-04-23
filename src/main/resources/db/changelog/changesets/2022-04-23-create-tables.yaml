@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-04-23_crete_todo_table
+      author: todo
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: todo_pk
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: task
+                  type: VARCHAR
+              - column:
+                  constraints:
+                    nullable: false
+                  name: deleted
+                  type: boolean
+            tableName: todo
+  - changeSet:
+        id: 2022-04-23_crete_sequence
+        author: todo
+        changes:
+          - createSequence:
+              cacheSize: 1
+              cycle: false
+              dataType: bigint
+              incrementBy: 1
+              maxValue: 9223372036854775807
+              minValue: 1
+              sequenceName: hibernate_sequence
+              startValue: 1

@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: todo
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: admin
+    password: admin
+    driverClassName:
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+    enabled: true
+    contexts: dev
+
+
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update
+        dialect=org:
+          hibernate:
+            dialect:
+              PostgreSQL10Dialect
+
