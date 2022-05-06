@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,6 +18,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder(toBuilder = true)
 @Table(name = "todo")
+@Where(clause = "deleted=false")
 public class ToDo {
     @Id
     @Column(name = "id", nullable = false)

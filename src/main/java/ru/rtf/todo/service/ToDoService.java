@@ -9,7 +9,6 @@ import ru.rtf.todo.jpa.entity.ToDo;
 import ru.rtf.todo.jpa.repo.ToDoRepository;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +35,7 @@ public class ToDoService {
     public ToDo updateToDo(ToDo toDo){
         if(toDo.getDeleted() == null)
             toDo.setDeleted(false);
-        Optional<ToDo> oldToDo = toDoRepository.findByIdAndDeletedIsFalse(toDo.getId());
+        Optional<ToDo> oldToDo = toDoRepository.findById(toDo.getId());
         if(oldToDo.isPresent()){
             ToDo save = toDoRepository.save(toDo);
             log.info("Задача успешно обновлена с id: {}", save.getId());
@@ -45,13 +44,11 @@ public class ToDoService {
             log.error("Нельзя обновить несуществующую задачу, todo: {}", toDo);
             throw new IllegalArgumentException();
         }
-
-
     }
 
     @Transactional
     public ToDo getToDo(Long todoId){
-        Optional<ToDo> toDo = toDoRepository.findByIdAndDeletedIsFalse(todoId);
+        Optional<ToDo> toDo = toDoRepository.findById(todoId);
         if(toDo.isPresent()){
             log.info("Получена задча с id: {}", todoId);
             return toDo.get();
@@ -62,18 +59,18 @@ public class ToDoService {
 
     @Transactional
     public List<ToDo> getAllToDos(){
-        List<ToDo> toDos = toDoRepository.findAllByDeletedIsFalse();
-        if (toDos == null) {
+        List<ToDo> toDos = toDoRepository.findAll();
+        if (toDos.isEmpty()) {
             log.info("Список задач пуст");
-            return new ArrayList<>();
+        } else {
+            log.info("Всего получено {} задач", toDos.size());
         }
-        log.info("Всегоа получено {} задач", toDos.size());
         return toDos;
     }
 
     @Transactional
     public ToDo deleteToDo(Long todoId){
-        Optional<ToDo> optionalToDo = toDoRepository.findByIdAndDeletedIsFalse(todoId);
+        Optional<ToDo> optionalToDo = toDoRepository.findById(todoId);
         if(optionalToDo.isPresent()){
             ToDo todo = optionalToDo.get();
             todo.setDeleted(true);
@@ -83,6 +80,4 @@ public class ToDoService {
             throw new IllegalArgumentException();
         }
     }
-
-
 }
