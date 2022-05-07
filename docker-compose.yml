@@ -3,7 +3,7 @@ services:
   todo:
     container_name: todo
     build:
-      context: .
+      context: backend
     image: todo:latest
     ports:
       - "8090:8080"
