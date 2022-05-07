@@ -4,7 +4,6 @@ services:
     container_name: todo-frontend
     build:
       context: frontend
-    image: todo:latest
     ports:
       - "3000:3000"
 
@@ -12,7 +11,6 @@ services:
     container_name: todo-backend
     build:
       context: backend
-    image: todo:latest
     ports:
       - "8090:8080"
     depends_on:
