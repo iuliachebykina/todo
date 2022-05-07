@@ -9,7 +9,20 @@ services:
 
   backend:
     container_name: todo-backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - MONGO_SERVER=host.docker.internal
     build:
       context: backend
     ports:
       - "8090:8080"
+
+  # psql:
+  #   image: 'postgres'
+  #   container_name: psql
+  #   environment:
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - "5432:5432"
