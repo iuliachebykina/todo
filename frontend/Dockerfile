@@ -7,4 +7,4 @@ RUN npm install
 
 COPY . ./
 
-ENTRYPOINT [ "executable" ] ["npm", "start"]
+ENTRYPOINT ["npm", "start"]
