@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--part of the rodentia icon theme by sixsixfive released under CC0 (https://creativecommons.org/publicdomain/zero/1.0/) on openclipart-->
+
+<svg
+   viewBox="0 0 42 42"
+   version="1.1"
+   id="svg868"
+   sodipodi:docname="plus.svg"
+   width="42"
+   height="42"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview870"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="13.062726"
+     inkscape:cx="20.363284"
+     inkscape:cy="20.325007"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg868" />
+  <defs
+     id="0">
+    <linearGradient
+       id="2">
+      <stop
+         id="9"
+         stop-color="#2e3436" />
+      <stop
+         id="A"
+         offset="1"
+         stop-color="#2e3436"
+         stop-opacity="0" />
+    </linearGradient>
+    <linearGradient
+       id="3">
+      <stop
+         id="B"
+         stop-color="#fff" />
+      <stop
+         id="C"
+         offset="1"
+         stop-color="#fff"
+         stop-opacity="0" />
+    </linearGradient>
+    <linearGradient
+       id="4">
+      <stop
+         id="D"
+         stop-color="#eeeeec"
+         stop-opacity="0.8" />
+      <stop
+         id="E"
+         offset="1"
+         stop-color="#eeeeec"
+         stop-opacity="0" />
+    </linearGradient>
+    <radialGradient
+       cx="24.559"
+       cy="44.16"
+       r="17.927999"
+       id="5"
+       xlink:href="#2"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.1003963,0,39.729506)" />
+    <linearGradient
+       y1="4.0630002"
+       x2="0"
+       y2="43.938"
+       id="6"
+       xlink:href="#4"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       x1="17.365999"
+       y1="-23.24"
+       x2="30.01"
+       y2="39.970001"
+       id="7"
+       xlink:href="#3"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(0,1003.4932)" />
+  </defs>
+  <path
+     d="M 26.499999,0 V 15.5 H 42 v 11 H 26.499999 V 42 h -11 V 26.5 H 0 v -11 H 15.499999 V 0 Z"
+     id="G"
+     fill="#445800"
+     style="fill:#ffffff;fill-opacity:1"
+     sodipodi:nodetypes="ccccccccccccc" />
+</svg>
