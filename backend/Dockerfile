@@ -12,7 +12,6 @@ RUN apt-get update &&\
     wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" -O ~/.postgresql/root.crt && \
     chmod 0600 ~/.postgresql/root.crt
     
-RUN apt update
 RUN apt install nmap -y
 CMD [ "nmap", "127.0.0.1" ]
 # RUN mvn -f /home/app/pom.xml clean package -q
