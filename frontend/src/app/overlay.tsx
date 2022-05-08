@@ -28,7 +28,7 @@ const Overlay = ({update, setSettingsVisible}: {update: ()=>any, setSettingsVisi
     }
 
     const selectRandom = () => {
-        DataProvider.Table.SelectedIndex = Math.round(Math.random() * (DataProvider.Table.Get().elements.length - 1));
+        //DataProvider.Table.SelectedIndex = Math.round(Math.random() * (DataProvider.Table.Get().elements.length - 1));
         document.querySelector<any>(`#todo-list > :nth-child(${DataProvider.Table.SelectedIndex})`)?.scrollIntoViewIfNeeded()
         update();
     }

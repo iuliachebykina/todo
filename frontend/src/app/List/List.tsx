@@ -1,6 +1,7 @@
-import React, { useReducer } from "react"
+import React, {useEffect, useReducer, useState} from "react"
 import DataProvider from "../DataProvider"
 import { ListElement } from "../interfaces/ListInterface"
+import {getAllTodos} from "../DataProvider";
 
 const TodoElement = (element: ListElement, index: number, forceUpdate: React.DispatchWithoutAction) => {
     const del = () => {
@@ -25,7 +26,13 @@ const TodoElement = (element: ListElement, index: number, forceUpdate: React.Dis
 
 const TodoList = () => {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
-    let elements = DataProvider.Table.Get().elements.map((x, i) => TodoElement(x, i, forceUpdate))
+    const [elements, setElements] = useState<JSX.Element[]>([]);
+    useEffect(() => {
+        getAllTodos().then(res => {
+            let test = res.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate));
+            setElements(test);
+        });
+    }, []);
 
     return (
         <div className="px-2 sm:px-4 mb-20 sm:mb-24" id="todo-list">

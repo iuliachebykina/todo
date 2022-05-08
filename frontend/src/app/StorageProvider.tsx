@@ -45,7 +45,6 @@ class StorageProvider {
                 if (!e.target?.result) return;
                 let data = Papa.parse<string>(e.target.result.toString()).data.flat().filter(x => x);
                 DataProvider.Table.list = {elements: data.map((desc, i) => {return {id: i, description: desc}})};
-                StorageProvider.SaveData(DataProvider.Table.Get());
                 forceUpdate();
             }
             reader.onerror = (e) => console.error(e);            

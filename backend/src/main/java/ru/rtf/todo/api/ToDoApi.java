@@ -15,12 +15,13 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/todo")
+@CrossOrigin(origins = "*")
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class ToDoApi {
     ToDoService toDoService;
 
     @PostMapping()
-    public ResponseEntity<ToDo> saveToDo(@RequestBody String  toDoDto){
+    public ResponseEntity<ToDo> saveToDo(@RequestBody String toDoDto){
         try {
             ToDo toDo = toDoService.saveToDo(toDoDto);
             return new ResponseEntity<>(toDo, HttpStatus.CREATED);
