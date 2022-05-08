@@ -32,8 +32,8 @@ class DataProvider {
     } 
 }
 
-export async function getAllTodos(): Promise<ToDo[]> {
-    return axios.get('http://localhost:8090/todo');
+export async function getAllTodos() {
+    return axios.get<ToDo[]>('http://localhost:8090/todo');
 }
 
 interface ToDo{

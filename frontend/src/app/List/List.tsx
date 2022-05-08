@@ -29,7 +29,7 @@ const TodoList = () => {
     const [elements, setElements] = useState<JSX.Element[]>([]);
     useEffect(() => {
         getAllTodos().then(res => {
-            let test = res.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate));
+            let test = res.data.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate));
             setElements(test);
         });
     }, []);
