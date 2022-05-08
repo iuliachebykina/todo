@@ -1,7 +1,7 @@
 FOLDER_ID=b1g3hblb6k8v0sll50g1
 NAME=todo
 DB_NAME=$NAME-db
-SERVICE_ACCOUNT_NAME=your-dear-admin-for-todo
+SERVICE_ACCOUNT_NAME=your-dear-admin
 
 yc iam service-account get --name $SERVICE_ACCOUNT_NAME --folder-id $FOLDER_ID > /dev/null || \
     yc iam service-account create --name $SERVICE_ACCOUNT_NAME --folder-id $FOLDER_ID
