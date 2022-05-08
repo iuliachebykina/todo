@@ -33,7 +33,7 @@ const TodoList = () => {
             let test = res.data.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate));
             setElements(test);
         });
-    }, []);
+    });
 
     return (
         <div className="px-2 sm:px-4 mb-20 sm:mb-24" id="todo-list">
