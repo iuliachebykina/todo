@@ -14,7 +14,7 @@ class Table {
         console.log(await addTodo(element.description));
     }
     static Delete = async (id: ListElement["id"]) => {
-        Table.list.elements.splice(Table.list.elements.findIndex(x => x.id === id), 1);
+        console.log(deleteTodo(id));
     }
 
     static Init = (list?: List) => {
@@ -36,8 +36,11 @@ export async function getAllTodos() {
 }
 
 export async function addTodo(element: string){
-    console.log(element);
     return axios.post<ToDo>(path, {task: element});
+}
+
+export async function deleteTodo(id: number){
+    return axios.delete(`${path}/${id}`);
 }
 
 interface ToDo{
