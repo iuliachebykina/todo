@@ -2,12 +2,13 @@ import React, {useEffect, useReducer, useState} from "react"
 import DataProvider from "../DataProvider"
 import { ListElement } from "../interfaces/ListInterface"
 import {getAllTodos} from "../DataProvider";
+import {deleteTodo} from "../DataProvider";
 
 const TodoElement = (element: ListElement, index: number, forceUpdate: React.DispatchWithoutAction) => {
     const del = () => {
         if (DataProvider.Table.SelectedIndex === index)
             DataProvider.Table.SelectedIndex = undefined;
-        DataProvider.Table.Delete(element.id);
+        deleteTodo(index)
         forceUpdate();
     }
 

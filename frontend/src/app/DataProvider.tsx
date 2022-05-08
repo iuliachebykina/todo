@@ -7,14 +7,8 @@ import path from "../properties";
 class Table {
     static list: List;
     static SelectedIndex: number|undefined;
-    static Add = async (element: ListElement | string) => {
-        if (typeof element === "string")
-            element = {description: element, id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)};
-
-        console.log(await addTodo(element.description));
-    }
     static Delete = async (id: ListElement["id"]) => {
-        console.log(deleteTodo(id));
+        return deleteTodo(id);
     }
 
     static Init = (list?: List) => {
@@ -43,7 +37,7 @@ export async function deleteTodo(id: number){
     return axios.delete(`${path}/${id}`);
 }
 
-interface ToDo{
+export interface ToDo{
     id: number,
     task: string
 }

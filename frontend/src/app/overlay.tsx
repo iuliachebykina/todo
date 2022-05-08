@@ -1,5 +1,7 @@
-import { createRef } from "react";
+import {createRef, useEffect, useState} from "react";
 import DataProvider from "./DataProvider";
+import {addTodo} from "./DataProvider";
+import {ToDo} from "./DataProvider";
 
 import resolveConfig from 'tailwindcss/resolveConfig';
 let TailwindConfigDefault = resolveConfig({theme: {}, darkMode: false});
@@ -14,13 +16,12 @@ const Overlay = ({update, setSettingsVisible}: {update: ()=>any, setSettingsVisi
         setFocus(input);
     }, 500)
 
-    const addItem = (): boolean => {
+    const addItem = async (): Promise<boolean> => {
         if (input.current === null) return false;
 
         let text = input.current.value.trim();
         if (text === "") return false;
-
-        DataProvider.Table.Add(input.current.value);
+        await addTodo(text);
         input.current.value = "";
         setFocus(input);
         update();
