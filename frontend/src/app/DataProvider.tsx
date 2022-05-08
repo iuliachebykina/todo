@@ -1,18 +1,17 @@
 import { ListElement, List } from "./interfaces/ListInterface";
 import StorageProvider from "./StorageProvider";
 import axios from 'axios';
+import path from "../properties";
 
 
 class Table {
     static list: List;
     static SelectedIndex: number|undefined;
-    static Get = async () => await getAllTodos();
     static Add = async (element: ListElement | string) => {
-        console.log(element);
         if (typeof element === "string")
             element = {description: element, id: Math.round(Math.random() * Number.MAX_SAFE_INTEGER)};
 
-        Table.list.elements.push(element);
+        console.log(await addTodo(element.description));
     }
     static Delete = async (id: ListElement["id"]) => {
         Table.list.elements.splice(Table.list.elements.findIndex(x => x.id === id), 1);
@@ -33,7 +32,12 @@ class DataProvider {
 }
 
 export async function getAllTodos() {
-    return axios.get<ToDo[]>('http://localhost:8090/todo');
+    return axios.get<ToDo[]>(path);
+}
+
+export async function addTodo(element: string){
+    console.log(element);
+    return axios.post<ToDo>(path, {task: element});
 }
 
 interface ToDo{

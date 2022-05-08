@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.rtf.todo.dto.ToDoDto;
 import ru.rtf.todo.jpa.entity.ToDo;
 import ru.rtf.todo.service.ToDoService;
 
@@ -21,9 +22,9 @@ public class ToDoApi {
     ToDoService toDoService;
 
     @PostMapping()
-    public ResponseEntity<ToDo> saveToDo(@RequestBody String toDoDto){
+    public ResponseEntity<ToDo> saveToDo(@RequestBody ToDoDto toDoDto){
         try {
-            ToDo toDo = toDoService.saveToDo(toDoDto);
+            ToDo toDo = toDoService.saveToDo(toDoDto.getTask());
             return new ResponseEntity<>(toDo, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
