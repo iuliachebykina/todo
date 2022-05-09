@@ -2,10 +2,15 @@ import React, {useEffect, useReducer, useState} from "react"
 import { ListElement } from "../interfaces/ListInterface"
 import {getAllTodos} from "../DataProvider";
 import {deleteTodo} from "../DataProvider";
+import {editTodo} from "../DataProvider";
 
 const TodoElement = (element: ListElement, index: number, forceUpdate: React.DispatchWithoutAction, selectedIndex: number) => {
     const del = async () => {
-        await deleteTodo(index)
+        await deleteTodo(element.id)
+        forceUpdate();
+    }
+    const edit = async () => {
+        await editTodo(element.id, prompt("Input new value") ?? element.description);
         forceUpdate();
     }
 
@@ -17,6 +22,8 @@ const TodoElement = (element: ListElement, index: number, forceUpdate: React.Dis
             <div className="w-0.5 h-5/6 bg-gray-400 mx-1 sm:mx-3"/>
             <div className="w-fit">{element.description}</div>
             <div className="ml-auto select-none cursor-pointer"
+                 onClick={edit}>✏</div>
+            <div className="select-none cursor-pointer"
             onClick={del}>❌</div>
         </div>
     )
