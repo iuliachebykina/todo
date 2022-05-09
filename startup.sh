@@ -12,6 +12,26 @@ yc resource-manager folder set-access-bindings \
     --id $FOLDER_ID \
     -y
 
+yc vpc network create default --folder-id $FOLDER_ID > /dev/null
+yc vpc subnet create default --network-name default --range 192.168.0.0/28 --folder-id $FOLDER_ID
+
+yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID > /dev/null || \
+    yc managed-postgresql cluster create $DB_NAME --folder-id $FOLDER_ID \
+    --user name=my-brand-new-user,password=password-for-my-brand-new-user \
+    --database name=todo,owner=my-brand-new-user \
+    --network-name default \
+    --resource-preset b2.nano \
+    --disk-type network-hdd \
+    --postgresql-version 14 \
+    --host zone-id=ru-central1-a,subnet-name=default,assign-public-ip=true
+
+CLUSTER_ID=$(yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
+DB_URL=$(yc managed-postgresql hosts list --limit 1 --cluster-id $CLUSTER_ID --folder-id $FOLDER_ID | sed -n 4p | awk '{print $2}')
+
+yc managed-postgresql cluster start $CLUSTER_ID
+
+exit 0
+
 yc container registry get --name $NAME --folder-id $FOLDER_ID > /dev/null || \
     yc container registry create --name $NAME --folder-id $FOLDER_ID
 
