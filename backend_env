@@ -1,0 +1,3 @@
+DB_URL=rc1a-wlws7dv1978nkeqb.mdb.yandexcloud.net:6432/todo
+DB_USER=my-brand-new-user
+DB_PSW=password-for-my-brand-new-user
