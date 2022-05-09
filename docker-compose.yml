@@ -6,15 +6,13 @@ services:
       context: frontend
     ports:
       - "3000:3000"
+
   backend:
     container_name: todo-backend
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_URL}:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=${DB_USER}
-      - SPRING_DATASOURCE_PASSWORD=${DB_PSW}
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - MONGO_SERVER=host.docker.internal
     build:
       context: backend
     ports:
