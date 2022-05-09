@@ -102,4 +102,5 @@ FRONTEND_URL=$(yc serverless container get $FRONTEND_NAME --folder-id $FOLDER_ID
 echo Сервис готов, можете перейти по ссылке:
 echo $FRONTEND_URL
 
-export default \'http://localhost:8090/todo\'\; > frontend/src/properties.tsx
+BACKEND_LOCAL_URL=http://localhost:8090/todo
+echo export default \'$BACKEND_LOCAL_URL\'\; > frontend/src/properties.tsx
