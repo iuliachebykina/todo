@@ -43,19 +43,23 @@ yc managed-postgresql cluster start $CLUSTER_ID
 yc container registry get --name $NAME --folder-id $FOLDER_ID > /dev/null || \
     yc container registry create --name $NAME --folder-id $FOLDER_ID
 
+
+BACKEND_NAME=todo-backend
+FRONTEND_NAME=todo-frontend
+
 CONTAINER_REGISTRY_ID=$(yc container registry get --name $NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
-BACKEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/todo-backend
-FRONTEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/todo-frontend
+BACKEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/$BACKEND_NAME
+FRONTEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/$FRONTEND_NAME
 
 python3 ./prepare-backend.py
 
 docker build backend -t $BACKEND_IMAGE_URL
 docker push $BACKEND_IMAGE_URL
 
-yc serverless container get --name todo-backend --folder-id $FOLDER_ID > /dev/null || \
-    yc serverless container create --name todo-backend --folder-id $FOLDER_ID
+yc serverless container get --name $BACKEND_NAME --folder-id $FOLDER_ID > /dev/null || \
+    yc serverless container create --name $BACKEND_NAME --folder-id $FOLDER_ID
 
-BACKEND_CONTAINER_ID=$(yc serverless container get --name todo-backend --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
+BACKEND_CONTAINER_ID=$(yc serverless container get --name $BACKEND_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
 
 yc serverless container allow-unauthenticated-invoke $BACKEND_CONTAINER_ID
 
@@ -69,17 +73,17 @@ yc serverless container revision deploy \
     --concurrency 1 \
     --service-account-id $SERVICE_ACCOUNT_ID
 
-BACKEND_URL=$(yc serverless container get todo-backend --folder-id $FOLDER_ID | grep url: | awk '{print $2}')todo
+BACKEND_URL=$(yc serverless container get $BACKEND_NAME --folder-id $FOLDER_ID | grep url: | awk '{print $2}')todo
 
 echo export default \'$BACKEND_URL\'\; > frontend/src/properties.tsx
 
 docker build frontend -t $FRONTEND_IMAGE_URL
 docker push $FRONTEND_IMAGE_URL
 
-yc serverless container get --name todo-frontend --folder-id $FOLDER_ID > /dev/null || \
-    yc serverless container create --name todo-frontend --folder-id $FOLDER_ID
+yc serverless container get --name $FRONTEND_NAME --folder-id $FOLDER_ID > /dev/null || \
+    yc serverless container create --name $FRONTEND_NAME --folder-id $FOLDER_ID
 
-FRONTEND_CONTAINER_ID=$(yc serverless container get --name todo-frontend --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
+FRONTEND_CONTAINER_ID=$(yc serverless container get --name $FRONTEND_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
 
 yc serverless container allow-unauthenticated-invoke $FRONTEND_CONTAINER_ID
 
@@ -93,7 +97,7 @@ yc serverless container revision deploy \
     --concurrency 1 \
     --service-account-id $SERVICE_ACCOUNT_ID
 
-FRONTEND_URL=$(yc serverless container get todo-frontend --folder-id $FOLDER_ID | grep url: | awk '{print $2}')
+FRONTEND_URL=$(yc serverless container get $FRONTEND_NAME --folder-id $FOLDER_ID | grep url: | awk '{print $2}')
 
 echo Сервис готов, можете перейти по ссылке:
 echo $FRONTEND_URL

@@ -1,17 +1,9 @@
 #
 # Build stage
 #
-
-
 FROM maven:3.6.0-jdk-11-slim AS build
 COPY src /home/app/src
 COPY pom.xml /home/app
-RUN apt-get update &&\
-    apt-get install -y -q xserver-xorg-core wget &&\
-    mkdir -p ~/.postgresql && \
-    wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" -O ~/.postgresql/root.crt && \
-    chmod 0600 ~/.postgresql/root.crt
-    
 RUN mvn -f /home/app/pom.xml clean package -q
 
 #
