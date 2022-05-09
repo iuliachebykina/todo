@@ -4,18 +4,19 @@ import { ListElement } from "../interfaces/ListInterface"
 import {getAllTodos} from "../DataProvider";
 import {deleteTodo} from "../DataProvider";
 
-const TodoElement = (element: ListElement, index: number, forceUpdate: React.DispatchWithoutAction) => {
+const TodoElement = (element: ListElement, index: number, forceUpdate: React.DispatchWithoutAction, selectedIndex: number) => {
     const del = () => {
         if (DataProvider.Table.SelectedIndex === index)
             DataProvider.Table.SelectedIndex = undefined;
         deleteTodo(index)
         forceUpdate();
     }
+    console.log(selectedIndex);
 
     return (
         <div key={index}
             className={"w-full h-16 my-2 rounded-xl text-base sm:text-3xl flex items-center px-4 " +
-            (DataProvider.Table.SelectedIndex === index ? "bg-gray-300" : "bg-gray-100")}>
+            (selectedIndex === index ? "bg-gray-300" : "bg-gray-100")}>
             <div className="w-6 sm:w-12 text-right">{index + 1}</div>
             <div className="w-0.5 h-5/6 bg-gray-400 mx-1 sm:mx-3"/>
             <div className="w-fit">{element.description}</div>
@@ -25,13 +26,15 @@ const TodoElement = (element: ListElement, index: number, forceUpdate: React.Dis
     )
 }
 
-const TodoList = () => {
+const TodoList = ({setCurrentListLength, selectedIndex}: {setCurrentListLength: (length: number) => any,
+    selectedIndex: number}) => {
     const [, forceUpdate] = useReducer(x => x + 1, 0);
     const [elements, setElements] = useState<JSX.Element[]>([]);
     useEffect(() => {
         getAllTodos().then(res => {
-            let test = res.data.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate));
+            let test = res.data.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate, selectedIndex));
             setElements(test);
+            setCurrentListLength(elements.length);
         });
     });
 
