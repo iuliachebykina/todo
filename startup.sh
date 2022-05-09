@@ -33,19 +33,25 @@ yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID > /dev/
 CLUSTER_ID=$(yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
 DB_URL=$(yc managed-postgresql hosts list --limit 1 --cluster-id $CLUSTER_ID --folder-id $FOLDER_ID | sed -n 4p | awk '{print $2}')
 
-echo DB_URL=$DB_URL >>  .env
-echo DB_USER=$DB_USER >>  .env
-echo DB_PSW=$DB_PSW >>  .env
+echo DB_URL=$DB_URL:6432/todo >>  backend_env
+echo DB_USER=$DB_USER >>  backend_env
+echo DB_PSW=$DB_PSW >>  backend_env
 
 yc managed-postgresql cluster start $CLUSTER_ID
-
-exit 0
 
 yc container registry get --name $NAME --folder-id $FOLDER_ID > /dev/null || \
     yc container registry create --name $NAME --folder-id $FOLDER_ID
 
 CONTAINER_REGISTRY_ID=$(yc container registry get --name $NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
-# IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/postgres
+BACKEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/todo-backend
+FRONTEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/todo-frontend
+
+python3 ./prepare-backend.py
+
+docker build backend
+
+exit 0
+
 
 # docker pull postgres
 # docker tag postgres $IMAGE_URL
