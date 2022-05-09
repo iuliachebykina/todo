@@ -95,4 +95,5 @@ yc serverless container revision deploy \
 
 FRONTEND_URL=$(yc serverless container get todo-frontend --folder-id $FOLDER_ID | grep url: | awk '{print $2}')
 
+echo Сервис готов, можете перейти по ссылке:
 echo $FRONTEND_URL
