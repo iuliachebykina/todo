@@ -1,6 +1,7 @@
-echo Название каталога?
-read FOLDER_NAME
+#echo Название каталога?
+#read FOLDER_NAME
 
+FOLDER_NAME=project
 FOLDER_ID=$(yc resource-manager folder get $FOLDER_NAME| grep ^id: | awk '{print $2}')
 NAME=todo
 DB_NAME=$NAME-db
@@ -48,7 +49,25 @@ FRONTEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/todo-frontend
 
 python3 ./prepare-backend.py
 
-docker build backend
+docker build backend -t $BACKEND_IMAGE_URL
+docker push $BACKEND_IMAGE_URL
+
+yc serverless container get --name todo-backend --folder-id $FOLDER_ID > /dev/null || \
+    yc serverless container create --name todo-backend --folder-id $FOLDER_ID
+
+BACKEND_CONTAINER_ID=$(yc serverless container get --name todo-backend --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
+
+yc serverless container allow-unauthenticated-invoke $BACKEND_CONTAINER_ID
+
+yc serverless container revision deploy \
+    --container-id $BACKEND_CONTAINER_ID \
+    --image $BACKEND_IMAGE_URL \
+    --cores 1 \
+    --core-fraction 25 \
+    --memory 1GB \
+    --execution-timeout 10s \
+    --concurrency 1 \
+    --service-account-id $SERVICE_ACCOUNT_ID
 
 exit 0
 
