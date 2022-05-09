@@ -34,7 +34,7 @@ yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID > /dev/
 CLUSTER_ID=$(yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
 DB_URL=$(yc managed-postgresql hosts list --limit 1 --cluster-id $CLUSTER_ID --folder-id $FOLDER_ID | sed -n 4p | awk '{print $2}')
 
-echo DB_URL=$DB_URL:6432/todo >>  backend_env
+echo DB_URL=$DB_URL:6432/todo > backend_env
 echo DB_USER=$DB_USER >>  backend_env
 echo DB_PSW=$DB_PSW >>  backend_env
 
@@ -69,33 +69,30 @@ yc serverless container revision deploy \
     --concurrency 1 \
     --service-account-id $SERVICE_ACCOUNT_ID
 
-exit 0
+BACKEND_URL=$(yc serverless container get todo-backend --folder-id $FOLDER_ID | grep url: | awk '{print $2}')todo
 
+echo export default \'$BACKEND_URL\'\; > frontend/src/properties.tsx
 
-# docker pull postgres
-# docker tag postgres $IMAGE_URL
-# docker push $IMAGE_URL
+docker build frontend -t $FRONTEND_IMAGE_URL
+docker push $FRONTEND_IMAGE_URL
 
-# yc serverless container get --name $DB_NAME --folder-id $FOLDER_ID > /dev/null || \
-#     yc serverless container create --name $DB_NAME --folder-id $FOLDER_ID
+yc serverless container get --name todo-frontend --folder-id $FOLDER_ID > /dev/null || \
+    yc serverless container create --name todo-frontend --folder-id $FOLDER_ID
 
-# CONTAINER_ID=$(yc serverless container get --name $DB_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
+FRONTEND_CONTAINER_ID=$(yc serverless container get --name todo-frontend --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
 
-# yc serverless container allow-unauthenticated-invoke $CONTAINER_ID
+yc serverless container allow-unauthenticated-invoke $FRONTEND_CONTAINER_ID
 
-# yc serverless container revision deploy \
-#     --container-id $CONTAINER_ID \
-#     --image $IMAGE_URL \
-#     --cores 1 \
-#     --core-fraction 25 \
-#     --memory 1GB \
-#     --execution-timeout 10s \
-#     --concurrency 1 \
-#     --service-account-id $SERVICE_ACCOUNT_ID \
-#     --environment POSTGRES_USER=postgres \
-#     --environment POSTGRES_PASSWORD=postgres \
-#     --environment PGDATA=/var/lib/postgresql/data/some_name/
+yc serverless container revision deploy \
+    --container-id $FRONTEND_CONTAINER_ID \
+    --image $FRONTEND_IMAGE_URL \
+    --cores 1 \
+    --core-fraction 25 \
+    --memory 1GB \
+    --execution-timeout 600s \
+    --concurrency 1 \
+    --service-account-id $SERVICE_ACCOUNT_ID
 
-exit 0
+FRONTEND_URL=$(yc serverless container get todo-frontend --folder-id $FOLDER_ID | grep url: | awk '{print $2}')
 
-docker-compose up -d --build
+echo $FRONTEND_URL
