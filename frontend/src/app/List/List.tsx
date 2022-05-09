@@ -1,17 +1,13 @@
 import React, {useEffect, useReducer, useState} from "react"
-import DataProvider from "../DataProvider"
 import { ListElement } from "../interfaces/ListInterface"
 import {getAllTodos} from "../DataProvider";
 import {deleteTodo} from "../DataProvider";
 
 const TodoElement = (element: ListElement, index: number, forceUpdate: React.DispatchWithoutAction, selectedIndex: number) => {
-    const del = () => {
-        if (DataProvider.Table.SelectedIndex === index)
-            DataProvider.Table.SelectedIndex = undefined;
-        deleteTodo(index)
+    const del = async () => {
+        await deleteTodo(index)
         forceUpdate();
     }
-    console.log(selectedIndex);
 
     return (
         <div key={index}
@@ -26,13 +22,14 @@ const TodoElement = (element: ListElement, index: number, forceUpdate: React.Dis
     )
 }
 
-const TodoList = ({setCurrentListLength, selectedIndex}: {setCurrentListLength: (length: number) => any,
-    selectedIndex: number}) => {
-    const [update, forceUpdate] = useReducer(x => x + 1, 0);
+const TodoList = ({setCurrentListLength, selectedIndex, update, forceUpdate}: {setCurrentListLength: (length: number) => any,
+    selectedIndex: number,
+    update: any,
+    forceUpdate: () => any}) => {
     const [elements, setElements] = useState<JSX.Element[]>([]);
     useEffect(() => {
         getAllTodos().then(res => {
-            let test = res.data.map((e: any) => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate, selectedIndex));
+            let test = res.data.map((e,i) => TodoElement({id: e.id, description: e.task}, i, forceUpdate, selectedIndex));
             setElements(test);
             setCurrentListLength(elements.length);
         });
