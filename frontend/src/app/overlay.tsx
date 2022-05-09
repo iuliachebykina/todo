@@ -33,7 +33,6 @@ const Overlay = ({update, setSettingsVisible, setSelectedIndex, currentListLengt
 
     const selectRandom = () => {
         const rand = Math.round(Math.random() * (currentListLength - 1));
-        console.log(rand);
         setSelectedIndex(rand);
         document.querySelector<any>(`#todo-list > :nth-child(${rand})`)?.scrollIntoViewIfNeeded()
         update();

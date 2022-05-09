@@ -6,7 +6,7 @@ import Settings from "./Settings";
 import Donate from "./Donate";
 
 const Main = () => {
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const [update, forceUpdate] = useReducer(x => x + 1, 0);
     const [settingsVisible, setSettingsVisible] = useState(false);
     const [donateVisible, setDonateVisible] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -18,7 +18,7 @@ const Main = () => {
             <Settings shown={settingsVisible} setShown={setSettingsVisible} update={forceUpdate}/>
             <Overlay update={forceUpdate} setSettingsVisible={setSettingsVisible} currentListLength={currentListLength} setSelectedIndex={setSelectedIndex}/>
             <Header setShowSettings={setSettingsVisible} setShowDonate={setDonateVisible}/>
-            <TodoList selectedIndex={selectedIndex} setCurrentListLength={setCurrentListLength}/>
+            <TodoList selectedIndex={selectedIndex} setCurrentListLength={setCurrentListLength} update={update} forceUpdate={forceUpdate}/>
         </div>
     )
 }
