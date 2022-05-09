@@ -28,15 +28,15 @@ const TodoElement = (element: ListElement, index: number, forceUpdate: React.Dis
 
 const TodoList = ({setCurrentListLength, selectedIndex}: {setCurrentListLength: (length: number) => any,
     selectedIndex: number}) => {
-    const [, forceUpdate] = useReducer(x => x + 1, 0);
+    const [update, forceUpdate] = useReducer(x => x + 1, 0);
     const [elements, setElements] = useState<JSX.Element[]>([]);
     useEffect(() => {
         getAllTodos().then(res => {
-            let test = res.data.map(e => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate, selectedIndex));
+            let test = res.data.map((e: any) => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate, selectedIndex));
             setElements(test);
             setCurrentListLength(elements.length);
         });
-    });
+    }, [update]);
 
     return (
         <div className="px-2 sm:px-4 mb-20 sm:mb-24" id="todo-list">
