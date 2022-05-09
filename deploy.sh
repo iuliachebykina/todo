@@ -24,7 +24,7 @@ yc vpc subnet create default --network-name default --range 192.168.0.0/28 --fol
 yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID > /dev/null || \
     yc managed-postgresql cluster create $DB_NAME --folder-id $FOLDER_ID \
     --user name=$DB_USER,password=$DB_PSW \
-    --database name=todo,owner=my-brand-new-user \
+    --database name=$NAME,owner=my-brand-new-user \
     --network-name default \
     --resource-preset b2.nano \
     --disk-type network-hdd \
@@ -34,9 +34,10 @@ yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID > /dev/
 CLUSTER_ID=$(yc managed-postgresql cluster get --name $DB_NAME --folder-id $FOLDER_ID | grep ^id: | awk '{print $2}')
 DB_URL=$(yc managed-postgresql hosts list --limit 1 --cluster-id $CLUSTER_ID --folder-id $FOLDER_ID | sed -n 4p | awk '{print $2}')
 
-echo DB_URL=$DB_URL:6432/todo > backend_env
-echo DB_USER=$DB_USER >>  backend_env
-echo DB_PSW=$DB_PSW >>  backend_env
+export DB_URL=$DB_URL:6432/$NAME
+echo $DB_URL
+export DB_USER=$DB_USER
+export DB_PSW=$DB_PSW
 
 yc managed-postgresql cluster start $CLUSTER_ID
 
@@ -51,9 +52,8 @@ CONTAINER_REGISTRY_ID=$(yc container registry get --name $NAME --folder-id $FOLD
 BACKEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/$BACKEND_NAME
 FRONTEND_IMAGE_URL=cr.yandex/$CONTAINER_REGISTRY_ID/$FRONTEND_NAME
 
-python3 ./prepare-backend.py
 
-docker build backend -t $BACKEND_IMAGE_URL
+docker build --build-arg DB_URL --build-arg DB_USER --build-arg DB_PSW backend -t $BACKEND_IMAGE_URL
 docker push $BACKEND_IMAGE_URL
 
 yc serverless container get --name $BACKEND_NAME --folder-id $FOLDER_ID > /dev/null || \
@@ -101,3 +101,5 @@ FRONTEND_URL=$(yc serverless container get $FRONTEND_NAME --folder-id $FOLDER_ID
 
 echo Сервис готов, можете перейти по ссылке:
 echo $FRONTEND_URL
+
+export default \'http://localhost:8090/todo\'\; > frontend/src/properties.tsx
