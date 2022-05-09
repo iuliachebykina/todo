@@ -2,9 +2,9 @@ spring:
   application:
     name: todo
   datasource:
-    url: jdbc:postgresql://{DB_URL}
-    username: {DB_USER}
-    password: {DB_PSW}
+    url: jdbc:postgresql://${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PSW}
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
     enabled: true
