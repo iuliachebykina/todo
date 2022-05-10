@@ -6,10 +6,7 @@ import {ToDo} from "./DataProvider";
 import resolveConfig from 'tailwindcss/resolveConfig';
 let TailwindConfigDefault = resolveConfig({theme: {}, darkMode: false});
 
-const Overlay = ({update, setSettingsVisible, setSelectedIndex, currentListLength}: {update: ()=>any,
-    setSettingsVisible: (arg: boolean)=>any,
-    setSelectedIndex: (index: number) => any,
-    currentListLength: number}) => {
+const Overlay = ({update, setSettingsVisible}: {update: ()=>any, setSettingsVisible: (arg: boolean)=>any}) => {
     const setFocus = (ref: React.RefObject<HTMLInputElement>) => ref.current?.focus();
     const input = createRef<HTMLInputElement>();
 
@@ -32,9 +29,8 @@ const Overlay = ({update, setSettingsVisible, setSelectedIndex, currentListLengt
     }
 
     const selectRandom = () => {
-        const rand = Math.round(Math.random() * (currentListLength - 1));
-        setSelectedIndex(rand);
-        document.querySelector<any>(`#todo-list > :nth-child(${rand})`)?.scrollIntoViewIfNeeded()
+        //DataProvider.Table.SelectedIndex = Math.round(Math.random() * (DataProvider.Table.Get().elements.length - 1));
+        document.querySelector<any>(`#todo-list > :nth-child(${DataProvider.Table.SelectedIndex})`)?.scrollIntoViewIfNeeded()
         update();
     }
 

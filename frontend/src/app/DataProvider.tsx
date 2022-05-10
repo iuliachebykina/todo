@@ -37,10 +37,6 @@ export async function deleteTodo(id: number){
     return axios.delete(`${path}/${id}`);
 }
 
-export async function editTodo(id: number, task: string){
-    return axios.put(path, {id: id, task: task});
-}
-
 export interface ToDo{
     id: number,
     task: string
