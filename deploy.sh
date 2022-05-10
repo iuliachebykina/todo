@@ -71,6 +71,7 @@ yc serverless container revision deploy \
     --memory 1GB \
     --execution-timeout 10s \
     --concurrency 1 \
+    --environment DB_URL=$DB_URL:6432/$NAME,DB_USER=$DB_USER,DB_PSW=$DB_PSW \
     --service-account-id $SERVICE_ACCOUNT_ID
 
 BACKEND_URL=$(yc serverless container get $BACKEND_NAME --folder-id $FOLDER_ID | grep url: | awk '{print $2}')todo
