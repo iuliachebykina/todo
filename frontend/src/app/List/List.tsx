@@ -26,13 +26,14 @@ const TodoElement = (element: ListElement, index: number, forceUpdate: React.Dis
     )
 }
 
-const TodoList = ({setCurrentListLength, selectedIndex}: {setCurrentListLength: (length: number) => any,
-    selectedIndex: number}) => {
-    const [update, forceUpdate] = useReducer(x => x + 1, 0);
+const TodoList = ({setCurrentListLength, selectedIndex, update, forceUpdate}: {setCurrentListLength: (length: number) => any,
+    selectedIndex: number,
+    update: any,
+    forceUpdate: () => any}) => {
     const [elements, setElements] = useState<JSX.Element[]>([]);
     useEffect(() => {
         getAllTodos().then(res => {
-            let test = res.data.map((e: any) => TodoElement({id: e.id, description: e.task}, e.id, forceUpdate, selectedIndex));
+            let test = res.data.map((e,i) => TodoElement({id: e.id, description: e.task}, i, forceUpdate, selectedIndex));
             setElements(test);
             setCurrentListLength(elements.length);
         });
