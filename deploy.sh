@@ -1,8 +1,4 @@
-#echo Название каталога?
-#read FOLDER_NAME
-
-FOLDER_NAME=project
-FOLDER_ID=$(yc resource-manager folder get $FOLDER_NAME| grep ^id: | awk '{print $2}')
+FOLDER_ID=b1g3hblb6k8v0sll50g1
 NAME=todo
 DB_NAME=$NAME-db
 SERVICE_ACCOUNT_NAME=your-dear-admin
