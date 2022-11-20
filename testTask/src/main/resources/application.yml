@@ -1,6 +1,6 @@
 spring:
   liquibase:
-    url: jdbc:h2:mem:test_task;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS test_task
+    url: jdbc:h2:mem:test_task;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;INIT=CREATE SCHEMA IF NOT EXISTS test_task
     change-log: classpath:db/changelog/liquibase-changeLog.xml
     default-schema: test_task
     password: ''
@@ -12,7 +12,7 @@ spring:
     driverClassName: org.h2.Driver
     password: ''
     username: sa
-    url: jdbc:h2:mem:test_task
+    url: jdbc:h2:mem:test_task;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS test_task
   h2:
     console:
       enabled: 'true'

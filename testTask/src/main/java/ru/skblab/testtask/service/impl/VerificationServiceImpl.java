@@ -4,11 +4,12 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import ru.skblab.testtask.aop.annotation.Loggable;
 import ru.skblab.testtask.common.IdType;
-import ru.skblab.testtask.dto.*;
+import ru.skblab.testtask.dto.NameDto;
+import ru.skblab.testtask.dto.UserVerifiedAnswerMessage;
+import ru.skblab.testtask.dto.UserVerifiedRequestMessage;
 import ru.skblab.testtask.exeption.UserNotFoundException;
 import ru.skblab.testtask.jpa.entity.User;
 import ru.skblab.testtask.service.*;
@@ -28,7 +29,6 @@ public class VerificationServiceImpl implements VerificationService {
     @SneakyThrows
     @Override
     @Loggable
-    @Async
     public void verifyUser(Long userId) {
         Optional<User> user = userService.getUser(userId);
         if(user.isEmpty()){

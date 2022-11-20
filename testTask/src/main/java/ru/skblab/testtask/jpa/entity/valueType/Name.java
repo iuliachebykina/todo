@@ -19,6 +19,11 @@ public class Name {
     @Column(length = 50)
     String patronymic;
 
+    public Name(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString(){
         return String.format("%s %s %s", lastName, firstName, patronymic);
