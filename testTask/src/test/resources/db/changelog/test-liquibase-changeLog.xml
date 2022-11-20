@@ -1,0 +1,63 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+   http://www.liquibase.org/xml/ns/dbchangelog
+   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet author="julia.chebykina.13@gmail.com" id="createTable">
+        <createTable tableName="users" schemaName="test_task">
+            <column name="id" type="bigint" remarks="ID">
+                <constraints primaryKey="true" primaryKeyName="PR_Users" unique="true"/>
+            </column>
+            <column name="login" type="varchar(50)" remarks="Логин">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar(100)" remarks="Почта">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(100)" remarks="Пароль">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(100)" remarks="Фамилия">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(100)" remarks="Имя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patronymic" type="varchar(100)" remarks="Отчество">
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted" type="boolean" remarks="Признак удаления" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="user_verification" schemaName="test_task">
+            <column name="id" type="bigint" remarks="ID">
+                <constraints primaryKey="true" primaryKeyName="PR_User_Verification" unique="true" nullable="false"/>
+            </column>
+            <column name="is_verification_message_sending" type="boolean" remarks="Признак отправки уведомления" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_notification_sending" type="boolean" remarks="Признак отправки уведомления" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="is_verified" type="boolean" remarks="Признак верицикации" >
+                <constraints nullable="true"/>
+            </column>
+            <column name="deleted" type="boolean" remarks="Признак удаления" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="user_verification" indexName="unsent_verification_messages">
+            <column name="is_verification_message_sending"/>
+        </createIndex>
+        <createIndex tableName="user_verification" indexName="unsent_notifications">
+            <column name="is_notification_sending"/>
+            <column name="is_verified"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

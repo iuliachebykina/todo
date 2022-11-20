@@ -9,10 +9,6 @@ services:
 
   backend:
     container_name: todo-backend
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    environment:
-      - MONGO_SERVER=host.docker.internal
     build:
       context: backend
     ports:

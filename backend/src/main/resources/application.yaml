@@ -2,17 +2,16 @@ spring:
   application:
     name: todo
   datasource:
-    url: jdbc:postgresql://${DB_URL}
+    url: jdbc:postgresql://loc
     username: ${DB_USER}
     password: ${DB_PSW}
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+    change-log: classpath:db/changelog/changelog.yaml
     enabled: true
     default-schema: public
   jpa:
     properties:
       hibernate:
-        ddl-auto: update
         dialect=org:
           hibernate:
             dialect:
